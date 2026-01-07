@@ -1,21 +1,22 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SectionHeading } from "@/components/section-heading";
 
 const programs = [
   {
-    title: "Çocuk Programı (6-9)",
+    title: "Yeni Başlayanlar",
     description:
-      "Temel taş güvenliği, açılış alışkanlıkları ve oyun sevgisini besleyen eğlenceli oturumlar.",
+      "Sıfırdan güvenli oyuna kadar. Kurallar ve temel oyun sonları, basit mat yapıları, açılış temelleri ve merkez kontrolü, ilk taktik motifler.",
   },
   {
-    title: "Genç Programı (10-14)",
+    title: "Orta Seviye",
     description:
-      "Kombinasyon okuması, taktik bulma ve düzenli pratik maçlarla oyun görüşünü keskinleştirir.",
+      "Güçlenme ve reyting artışı. Öğrencinin stilini göz önünde bulundurarak açılış repertuvarı, orta oyunda tipik pozisyonlar ve planlar, derin taktik ve kombinasyonlar, kendi oyunlarının analizi.",
   },
   {
-    title: "İleri / Turnuva",
+    title: "Turnuvalar",
     description:
-      "Repertuvar oluşturma, maç sonrası analiz ve zaman yönetimi ile yarışmaya hazır hale getirir.",
+      "Ciddi hazırlık. Rakip oyunlarının analizi, derin açılış çalışmaları, karmaşık oyun sonları, yarışmalara psikolojik hazırlık.",
   },
 ];
 
@@ -63,13 +64,13 @@ export default function Home() {
                 Şah Avı Akademi
               </p>
               <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#101010] mb-5 leading-tight">
-                Şahı Avla<br className="hidden md:inline" /> Oyunu Kazan.
+                Kralı Avlamaya<br className="hidden md:inline" /> Hazır mısın?
               </h1>
               <p className="text-base md:text-lg text-[#444] font-medium max-w-xl mb-4">
-                Çocuklar ve yetişkinler için profesyonel satranç eğitimi. Turnuva hazırlığı, strateji gelişimi ve psikolojik destek ile her seviyeye özel çağdaş programlar.
+                Çocuklar ve yetişkinler için profesyonel satranç eğitimi. Turnuva hazırlığı, stratejik ve analitik düşünme gelişimi, psikolojik destek. İlk deneme dersiniz ücretsizdir (30 dakikaya kadar).
               </p>
               <p className="text-sm md:text-base font-semibold text-gold-800">
-                İlk deneme dersiniz ücretsizdir <span className="font-bold text-gold-500">(30 dakikaya kadar)</span>.
+                💬 Dersler online olarak yapılmaktadır (Zoom, Lichess, Chess.com). Eğitim dili: Türkçe / Rusça.
               </p>
             </div>
             {/* Key features as icons list */}
@@ -78,7 +79,7 @@ export default function Home() {
                 <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
                 <div>
                   <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
-                    FIDE Ustasının geliştirdiği güncel eğitim programı
+                    FIDE Ustası
                   </span>
                 </div>
               </li>
@@ -86,7 +87,7 @@ export default function Home() {
                 <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
                 <div>
                   <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
-                    Taktik, konum, oyun sonu &amp; analitik düşünme odaklı dersler
+                    10+ yıl öğretim deneyimi
                   </span>
                 </div>
               </li>
@@ -113,21 +114,7 @@ export default function Home() {
               </span>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-4">
-              <Link
-                href="/programs"
-                className="rounded-full bg-gradient-to-r from-gold-400 to-amber-500 px-7 py-3 text-center text-sm md:text-base font-bold text-black shadow-lg shadow-gold-500/15 transition hover:-translate-y-0.5 hover:shadow-gold-400/60"
-              >
-                Ders Seçenekleri
-              </Link>
-              <Link
-                href="/contact"
-                className="rounded-full border border-[#be521c]/10 px-7 py-3 text-center text-sm md:text-base font-semibold text-[#0b0b0b] bg-white/70 hover:border-gold-400 hover:text-gold-600 transition"
-              >
-                Kulübe Katıl
-              </Link>
-            </div>
+           
           </div>
 
           {/* Right Side: Illustrative image area */}
@@ -155,9 +142,22 @@ export default function Home() {
                 />
               </div>
               {/* Info tag */}
-              <div className="absolute bottom-6 right-8 bg-gold-50 text-gold-700 px-4 py-1 rounded-full text-xs font-medium border border-gold-200 shadow-sm">
-                Sadece Başarı
-              </div>
+               {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 mt-4">
+              <Link
+                href="/programs"
+                className="rounded-full bg-gradient-to-r from-gold-400 to-amber-500 px-7 py-3 text-center text-sm md:text-base font-bold text-black shadow-lg shadow-gold-500/15 transition hover:-translate-y-0.5 hover:shadow-gold-400/60"
+              >
+                Ders Seçenekleri
+              </Link>
+              <Link
+                href="/contact"
+                className="rounded-full border border-[#be521c]/10 px-7 py-3 text-center text-sm md:text-base font-semibold text-[#0b0b0b] bg-white/70 hover:border-gold-400 hover:text-gold-600 transition"
+              >
+                Kulübe Katıl
+              </Link>
+            </div>
+              
             </div>
           </div>
         </div>
@@ -167,55 +167,39 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-[#0b0b0b]/5 bg-gradient-to-br from-white to-[#f4ecde] shadow-xl shadow-black/10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(201,162,77,0.18),transparent_32%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,12,12,0.04)_1px,transparent_1px)] bg-[length:80px_80px] opacity-60" />
-            <div className="absolute inset-4 rounded-2xl border border-[#0b0b0b]/10" />
-            <div className="absolute bottom-6 left-6 space-y-2">
-              <p className="text-sm font-semibold text-gold-600">
+            <Image
+              src="/images/image1.jpg"
+              alt="Satranç eğitimi"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 space-y-2">
+              <p className="text-sm font-semibold text-white">
                 Taktik / Strateji
               </p>
-              <p className="text-xs text-[#4a4a4a]">
+              <p className="text-xs text-white/90">
                 Her ders, şah atağı, şah güvenliği ve aktif oyun üzerine kurulu.
               </p>
             </div>
           </div>
           <div className="space-y-6">
             <SectionHeading
-              eyebrow="Kulüp kültürü"
-              title="KingsHunt Nedir?"
-              subtitle="Şah Avı Akademi, saldırı bilincini ve stratejik disiplini aynı anda geliştiren modern bir satranç topluluğudur."
+              eyebrow="Okul hakkında"
+              title="Online Satranç Okulu «Şah Avı»"
+              subtitle="Satranç dikkat, hafıza, mantık ve özgüven geliştirir — biz de bu yolu anlaşılır ve ilginç hale getirmeye yardımcı oluyoruz."
             />
-            <ul className="space-y-3 text-[#3f3f3f]">
-              <li className="flex items-start gap-3">
-                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500" />
-                <div>
-                  <p className="font-semibold text-[#0b0b0b]">
-                    Şah saldırısı ve güvenliği öncelikli
-                  </p>
-                  <p className="text-sm text-[#4a4a4a]">
-                    Oyun planı her zaman şah konumunu merkeze alır.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500" />
-                <div>
-                  <p className="font-semibold text-[#0b0b0b]">Saldırı zihniyeti</p>
-                  <p className="text-sm text-[#4a4a4a]">
-                    İnce hesaplı baskı ve inisiyatif kullanımı temel eğitimdir.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500" />
-                <div>
-                  <p className="font-semibold text-[#0b0b0b]">Stratejik disiplin</p>
-                  <p className="text-sm text-[#4a4a4a]">
-                    Açılıştan oyun sonuna kadar düzenli çalışma ve analiz rutini.
-                  </p>
-                </div>
-              </li>
-            </ul>
+            <div className="space-y-4 text-[#3f3f3f]">
+              <p className="text-base">
+                Satranç üzerinde doğru çalışma sadece reytingi değil, aynı zamanda karakteri, özgüveni ve düşünmeyi de etkiler.
+              </p>
+              <p className="text-base">
+                Profesyonel satranç yaklaşımını psikolojik destek ve düşünme gelişimi ile birleştiriyoruz. Bu, öğrencilerin sadece tahta başında değil, okulda, sınavlarda ve günlük hayatta kendilerini daha güvenli hissetmelerine yardımcı olur.
+              </p>
+              <p className="text-base">
+                Program her öğrenci için bireysel olarak seçilir: bazıları ciddi turnuva sonuçlarına gider, bazıları zevk ve zeka gelişimi için çalışır. Her durumda amaç aynıdır — güçlü bir satranç oyuncusu gibi düşünmeyi öğretmek ve oyundan zevk almak.
+              </p>
+            </div>
             <Link
               href="/about"
               className="inline-flex w-fit items-center gap-2 rounded-full border border-[#0b0b0b]/10 px-5 py-2.5 text-sm font-semibold text-[#0b0b0b] transition hover:border-gold-400 hover:text-gold-600"

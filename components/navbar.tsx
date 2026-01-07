@@ -1,8 +1,9 @@
  "use client";
 
- import Link from "next/link";
- import { usePathname } from "next/navigation";
- import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
  const navLinks = [
    { href: "/", label: "Anasayfa" },
@@ -26,12 +27,18 @@ const linkBase =
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
         <Link
           href="/"
-          className="group flex items-center gap-2 text-lg font-semibold text-[#0b0b0b]"
+          className="group flex items-center gap-3 text-lg font-semibold text-[#0b0b0b]"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold-500 to-amber-600 text-sm font-semibold text-black shadow-lg shadow-gold-500/25 transition-transform group-hover:-translate-y-0.5">
-            ŞA
-          </span>
-          <div className="leading-tight">
+          <div className="relative h-12 w-12 flex-shrink-0 transition-transform group-hover:-translate-y-0.5 bg-transparent">
+            <Image
+              src="/images/logo3.png"
+              alt="Şah Avı Akademi Logo"
+              fill
+              className="object-contain scale-[2]"
+              priority
+            />
+          </div>
+          <div className="leading-tight hidden sm:block">
             <p className="text-sm uppercase tracking-[0.2em] text-gold-300">
               Şah Avı
             </p>
