@@ -47,36 +47,118 @@ export default function Home() {
   return (
     <div className="text-[#0b0b0b]">
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-[#f6f1e7] to-[#efe6d7]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(201,162,77,0.14),transparent_30%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(12,12,12,0.04)_1px,transparent_1px)] bg-[length:120px_120px] opacity-50" />
+      <section className="relative overflow-hidden py-8 md:py-12 bg-gradient-to-br from-white via-[#f8f3ea] to-[#efe6d7]">
+        {/* Decorative gradient overlays */}
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_38%,rgba(201,162,77,0.13),transparent_32%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(12,12,12,0.032)_1px,transparent_1px)] bg-[length:90px_90px] opacity-40" />
+        </div>
 
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-12 px-4 py-24 text-center md:px-6 md:py-32 lg:text-left">
-          <div className="mx-auto max-w-4xl space-y-6 lg:mx-0">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-400">
-              Şah Avı Akademi
-            </p>
-            <h1 className="text-4xl font-semibold leading-[1.05] text-[#0b0b0b] md:text-5xl lg:text-6xl">
-              Şahı avla. Oyunu Kazan.
-            </h1>
-            <p className="text-lg text-[#3f3f3f] md:text-xl">
-            Çocuklar ve yetişkinler için profesyonel dersler. Turnuva hazırlığı, stratejik ve analitik düşünme geliştirme ve psikolojik destek. İlk deneme dersiniz ücretsizdir (30 dakikaya kadar).
-            </p>
+        {/* Responsive content row */}
+        <div className="relative z-10 mx-auto flex flex-col-reverse items-center gap-12 px-4 md:flex-row md:gap-8 md:px-6 max-w-6xl">
+          {/* Left Side: Text + List + CTA */}
+          <div className="w-full md:w-1/2 flex flex-col gap-4 justify-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-500 mb-2">
+                Şah Avı Akademi
+              </p>
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#101010] mb-5 leading-tight">
+                Şahı Avla<br className="hidden md:inline" /> Oyunu Kazan.
+              </h1>
+              <p className="text-base md:text-lg text-[#444] font-medium max-w-xl mb-4">
+                Çocuklar ve yetişkinler için profesyonel satranç eğitimi. Turnuva hazırlığı, strateji gelişimi ve psikolojik destek ile her seviyeye özel çağdaş programlar.
+              </p>
+              <p className="text-sm md:text-base font-semibold text-gold-800">
+                İlk deneme dersiniz ücretsizdir <span className="font-bold text-gold-500">(30 dakikaya kadar)</span>.
+              </p>
+            </div>
+            {/* Key features as icons list */}
+            <ul className="space-y-3 mt-1">
+              <li className="flex items-start gap-2">
+                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
+                <div>
+                  <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
+                    FIDE Ustasının geliştirdiği güncel eğitim programı
+                  </span>
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
+                <div>
+                  <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
+                    Taktik, konum, oyun sonu &amp; analitik düşünme odaklı dersler
+                  </span>
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
+                <div>
+                  <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
+                    Modern &amp; yapay zeka ile desteklenen öğrenme
+                  </span>
+                </div>
+              </li>
+            </ul>
+
+            {/* Pill style highlights */}
+            <div className="flex flex-wrap gap-2 pt-2">
+              <span className="inline-flex items-center rounded-full bg-gold-100 px-4 py-1 text-xs md:text-sm font-medium text-gold-700 border border-gold-200 shadow-sm">
+                FIDE Ustası
+              </span>
+              <span className="inline-flex items-center rounded-full bg-gold-50 px-4 py-1 text-xs md:text-sm font-medium text-gold-700 border border-gold-100 shadow-sm">
+                1-2 Ayda gelişim farkı
+              </span>
+              <span className="inline-flex items-center rounded-full bg-gold-100 px-4 py-1 text-xs md:text-sm font-medium text-gold-700 border border-gold-200 shadow-sm">
+                Onlarca milli sporcu
+              </span>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 mt-4">
+              <Link
+                href="/programs"
+                className="rounded-full bg-gradient-to-r from-gold-400 to-amber-500 px-7 py-3 text-center text-sm md:text-base font-bold text-black shadow-lg shadow-gold-500/15 transition hover:-translate-y-0.5 hover:shadow-gold-400/60"
+              >
+                Ders Seçenekleri
+              </Link>
+              <Link
+                href="/contact"
+                className="rounded-full border border-[#be521c]/10 px-7 py-3 text-center text-sm md:text-base font-semibold text-[#0b0b0b] bg-white/70 hover:border-gold-400 hover:text-gold-600 transition"
+              >
+                Kulübe Katıl
+              </Link>
+            </div>
           </div>
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-            <Link
-              href="/programs"
-              className="w-full rounded-full bg-gradient-to-r from-gold-400 to-amber-500 px-6 py-3 text-center text-sm font-semibold text-black shadow-lg shadow-gold-500/25 transition hover:-translate-y-0.5 hover:shadow-gold-400/40 sm:w-auto"
-            >
-              Ders Seçenekleri
-            </Link>
-            <Link
-              href="/contact"
-              className="w-full rounded-full border border-[#0b0b0b]/10 px-6 py-3 text-center text-sm font-semibold text-[#0b0b0b] transition hover:-translate-y-0.5 hover:border-gold-400 hover:text-gold-600 sm:w-auto"
-            >
-              Join KingsHunt
-            </Link>
+
+          {/* Right Side: Illustrative image area */}
+          <div className="w-full md:w-1/2 flex flex-col justify-center items-center relative">
+            <div className="relative bg-gradient-to-br from-white/70 to-[#ecdfcb] rounded-3xl p-6 shadow-xl shadow-black/10 border border-[#be521c]/10 flex flex-col items-center min-h-[320px] w-full max-w-md">
+              {/* Chess piece images in layered style */}
+              <div className="relative flex justify-center items-end h-full w-full mt-2">
+                <img
+                  src="/images/pawn.png"
+                  alt="Pawn"
+                  className="h-[140px] md:h-[170px] absolute left-2 bottom-2 z-10 opacity-80"
+                  style={{ filter: "drop-shadow(0 2px 8px #be521c22)" }}
+                />
+                <img
+                  src="/images/king.png"
+                  alt="King"
+                  className="h-[170px] md:h-[210px] mx-auto z-20 relative"
+                  style={{ filter: "drop-shadow(0 4px 14px #be521c33)" }}
+                />
+                <img
+                  src="/images/queen.png"
+                  alt="Queen"
+                  className="h-[140px] md:h-[170px] absolute right-2 bottom-2 z-10 opacity-80"
+                  style={{ filter: "drop-shadow(0 2px 8px #be521c22)" }}
+                />
+              </div>
+              {/* Info tag */}
+              <div className="absolute bottom-6 right-8 bg-gold-50 text-gold-700 px-4 py-1 rounded-full text-xs font-medium border border-gold-200 shadow-sm">
+                Sadece Başarı
+              </div>
+            </div>
           </div>
         </div>
       </section>
