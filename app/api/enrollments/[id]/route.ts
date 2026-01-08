@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { auth } from "@/lib/auth"
+import { createClient } from "@/lib/supabase/server"
 import { prisma } from "@/lib/prisma"
 
 export async function DELETE(
@@ -7,9 +7,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth()
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json(
         { error: "Giriş yapmanız gerekiyor" },
         { status: 401 }
@@ -30,8 +31,14 @@ export async function DELETE(
       )
     }
 
+    // Get user role from database
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { role: true }
+    })
+
     // Only admin or the owner can delete
-    if (session.user.role !== "ADMIN" && enrollment.userId !== session.user.id) {
+    if (dbUser?.role !== "ADMIN" && enrollment.userId !== user.id) {
       return NextResponse.json(
         { error: "Yetkisiz erişim" },
         { status: 403 }
@@ -51,6 +58,3 @@ export async function DELETE(
     )
   }
 }
-
-
-

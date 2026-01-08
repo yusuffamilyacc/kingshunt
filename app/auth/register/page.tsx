@@ -1,12 +1,14 @@
 "use client"
 
 import { useState } from "react"
+import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { SectionHeading } from "@/components/section-heading"
 
 export default function RegisterPage() {
   const router = useRouter()
+  const supabase = createClient()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,21 +35,41 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+      // Register with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            name: formData.name,
+            role: 'MEMBER', // Default role, middleware edge runtime için
+          },
+        },
       })
 
-      const data = await response.json()
+      if (authError) {
+        setError(authError.message || "Kayıt sırasında bir hata oluştu")
+        return
+      }
 
-      if (!response.ok) {
-        setError(data.error || "Kayıt sırasında bir hata oluştu")
-      } else {
+      if (authData.user) {
+        // Create user in Prisma database
+        const response = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: authData.user.id,
+            name: formData.name,
+            email: formData.email,
+          }),
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          setError(errorData.error || "Kullanıcı oluşturulurken bir hata oluştu")
+          return
+        }
+
         router.push("/auth/login?registered=true")
       }
     } catch (err) {
@@ -156,9 +178,3 @@ export default function RegisterPage() {
     </div>
   )
 }
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession } from "next-auth/react"
+import { useUser } from "@/hooks/use-user"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -27,7 +27,7 @@ interface Tournament {
 }
 
 export default function AdminPage() {
-  const { data: session, status } = useSession()
+  const { user, loading: userLoading } = useUser()
   const router = useRouter()
   const [programs, setPrograms] = useState<Program[]>([])
   const [tournaments, setTournaments] = useState<Tournament[]>([])
@@ -35,19 +35,18 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Sadece kesin olarak unauthenticated olduğunda redirect yap
-    if (status === "unauthenticated") {
+    if (!userLoading && !user) {
       router.push("/auth/login")
-    } else if (status === "authenticated" && session && session.user.role !== "ADMIN") {
+    } else if (!userLoading && user && user.role !== "ADMIN") {
       router.push("/")
     }
-  }, [status, session, router])
+  }, [userLoading, user, router])
 
   useEffect(() => {
-    if (session?.user.role === "ADMIN") {
+    if (user?.role === "ADMIN") {
       fetchData()
     }
-  }, [session])
+  }, [user])
 
   const fetchData = async () => {
     try {
@@ -104,7 +103,7 @@ export default function AdminPage() {
     }
   }
 
-  if (status === "loading" || loading) {
+  if (userLoading || loading) {
     return (
       <div className="text-[#0b0b0b] min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -114,7 +113,7 @@ export default function AdminPage() {
     )
   }
 
-  if (!session || session.user.role !== "ADMIN") {
+  if (!user || user.role !== "ADMIN") {
     return null
   }
 
@@ -293,6 +292,3 @@ export default function AdminPage() {
     </div>
   )
 }
-
-
-

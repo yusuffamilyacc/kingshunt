@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, Suspense } from "react"
-import { signIn } from "next-auth/react"
+import { createClient } from "@/lib/supabase/client"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { SectionHeading } from "@/components/section-heading"
@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/section-heading"
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const supabase = createClient()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -20,15 +21,14 @@ function LoginForm() {
     setLoading(true)
 
     try {
-      const result = await signIn("credentials", {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
-        redirect: false,
       })
 
-      if (result?.error) {
+      if (signInError) {
         setError("Email veya şifre hatalı")
-      } else {
+      } else if (data.user) {
         // Callback URL varsa oraya, yoksa profile'a yönlendir
         const callbackUrl = searchParams.get("callbackUrl") || "/profile"
         window.location.href = callbackUrl
@@ -138,9 +138,3 @@ export default function LoginPage() {
     </Suspense>
   )
 }
-
-
-
-
-
-

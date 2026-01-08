@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { auth } from "@/lib/auth"
+import { createClient } from "@/lib/supabase/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
@@ -31,9 +31,23 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session || session.user.role !== "ADMIN") {
+    if (!user) {
+      return NextResponse.json(
+        { error: "Giriş yapmanız gerekiyor" },
+        { status: 401 }
+      )
+    }
+
+    // Get user role from database
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { role: true }
+    })
+
+    if (!dbUser || dbUser.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Yetkisiz erişim" },
         { status: 403 }
@@ -63,6 +77,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
-
-

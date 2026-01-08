@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { auth } from "@/lib/auth"
+import { createClient } from "@/lib/supabase/server"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
@@ -9,19 +9,26 @@ const enrollmentSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth()
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json(
         { error: "Giriş yapmanız gerekiyor" },
         { status: 401 }
       )
     }
 
+    // Get user role from database
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { role: true }
+    })
+
     // Admin can see all enrollments, members see only their own
-    const where = session.user.role === "ADMIN"
+    const where = dbUser?.role === "ADMIN"
       ? {}
-      : { userId: session.user.id }
+      : { userId: user.id }
 
     const enrollments = await prisma.enrollment.findMany({
       where,
@@ -50,9 +57,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json(
         { error: "Giriş yapmanız gerekiyor" },
         { status: 401 }
@@ -66,7 +74,7 @@ export async function POST(request: NextRequest) {
     const existingEnrollment = await prisma.enrollment.findUnique({
       where: {
         userId_programId: {
-          userId: session.user.id,
+          userId: user.id,
           programId: validatedData.programId,
         }
       }
@@ -81,7 +89,7 @@ export async function POST(request: NextRequest) {
 
     const enrollment = await prisma.enrollment.create({
       data: {
-        userId: session.user.id,
+        userId: user.id,
         programId: validatedData.programId,
       },
       include: {
@@ -105,6 +113,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
-
-

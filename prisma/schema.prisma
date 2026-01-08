@@ -19,14 +19,13 @@ enum UserRole {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
+  id        String   @id // Supabase Auth user ID
   email     String   @unique
-  password  String
+  name      String?
   role      UserRole @default(MEMBER)
+  // password field artık gerekli değil (Supabase Auth yönetiyor)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   enrollments Enrollment[]
 }
 

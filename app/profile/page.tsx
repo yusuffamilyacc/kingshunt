@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession } from "next-auth/react"
+import { useUser } from "@/hooks/use-user"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -17,22 +17,22 @@ interface Enrollment {
 }
 
 export default function ProfilePage() {
-  const { data: session, status } = useSession()
+  const { user, loading: userLoading } = useUser()
   const router = useRouter()
   const [enrollments, setEnrollments] = useState<Enrollment[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (!userLoading && !user) {
       router.push("/auth/login")
     }
-  }, [status, router])
+  }, [userLoading, user, router])
 
   useEffect(() => {
-    if (session) {
+    if (user) {
       fetchEnrollments()
     }
-  }, [session])
+  }, [user])
 
   const fetchEnrollments = async () => {
     try {
@@ -67,7 +67,7 @@ export default function ProfilePage() {
     }
   }
 
-  if (status === "loading" || loading) {
+  if (userLoading || loading) {
     return (
       <div className="text-[#0b0b0b] min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -77,7 +77,7 @@ export default function ProfilePage() {
     )
   }
 
-  if (!session) {
+  if (!user) {
     return null
   }
 
@@ -89,7 +89,7 @@ export default function ProfilePage() {
           <SectionHeading
             align="center"
             eyebrow="Profil"
-            title={`Hoş geldiniz, ${session.user.name}`}
+            title={`Hoş geldiniz, ${user.name || user.email}`}
             subtitle="Programlarınızı görüntüleyin ve yeni programlara kayıt olun"
           />
         </div>
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                 >
                   Programları Görüntüle
                 </Link>
-                {session.user.role === "ADMIN" && (
+                {user.role === "ADMIN" && (
                   <Link
                     href="/admin"
                     className="block rounded-xl border border-[#0b0b0b]/10 bg-[#f7f4ec] px-4 py-3 text-sm font-semibold text-[#0b0b0b] text-center transition hover:bg-[#efe7d7]"
@@ -155,10 +155,10 @@ export default function ProfilePage() {
               </h3>
               <div className="space-y-2 text-sm text-[#4a4a4a]">
                 <p>
-                  <span className="font-medium">Email:</span> {session.user.email}
+                  <span className="font-medium">Email:</span> {user.email}
                 </p>
                 <p>
-                  <span className="font-medium">Rol:</span> {session.user.role}
+                  <span className="font-medium">Rol:</span> {user.role}
                 </p>
               </div>
             </div>
@@ -168,9 +168,3 @@ export default function ProfilePage() {
     </div>
   )
 }
-
-
-
-
-
-

@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import bcrypt from "bcryptjs"
 import { z } from "zod"
 
 const registerSchema = z.object({
+  id: z.string().min(1, "User ID gereklidir"),
   name: z.string().min(2, "İsim en az 2 karakter olmalıdır"),
   email: z.string().email("Geçerli bir email adresi giriniz"),
-  password: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
 })
 
 export async function POST(request: NextRequest) {
@@ -16,25 +15,22 @@ export async function POST(request: NextRequest) {
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email: validatedData.email }
+      where: { id: validatedData.id }
     })
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "Bu email adresi zaten kullanılıyor" },
+        { error: "Bu kullanıcı zaten kayıtlı" },
         { status: 400 }
       )
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(validatedData.password, 10)
-
-    // Create user
+    // Create user in Prisma (password is managed by Supabase Auth)
     const user = await prisma.user.create({
       data: {
+        id: validatedData.id,
         name: validatedData.name,
         email: validatedData.email,
-        password: hashedPassword,
         role: "MEMBER",
       },
       select: {
@@ -44,6 +40,10 @@ export async function POST(request: NextRequest) {
         role: true,
       }
     })
+
+    // Update user_metadata with role (for middleware edge runtime)
+    // Note: This requires the user to be authenticated, so we'll do it client-side
+    // Or use a server-side function with service_role key
 
     return NextResponse.json(
       { message: "Kayıt başarılı", user },
@@ -64,9 +64,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
-
-
-
-
-
