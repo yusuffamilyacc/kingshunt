@@ -32,3 +32,4 @@ SET raw_user_meta_data = COALESCE(raw_user_meta_data, '{}'::jsonb) ||
   ))
 WHERE id IN (SELECT id FROM public."User");
 
+

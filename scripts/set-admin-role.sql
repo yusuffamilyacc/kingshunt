@@ -21,3 +21,4 @@ SELECT
 FROM public."User"
 WHERE role = 'ADMIN';
 
+

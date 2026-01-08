@@ -114,3 +114,4 @@ Yeni bir script oluşturmanız gerekecek veya Supabase Dashboard'dan manuel olar
 - Supabase project URL'inin doğru olduğundan emin olun
 - Vercel'de environment variables'ın doğru ayarlandığından emin olun
 
+

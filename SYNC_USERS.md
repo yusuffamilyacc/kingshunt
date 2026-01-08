@@ -118,3 +118,4 @@ Supabase Dashboard'dan manuel oluşturduğunuz kullanıcıları senkronize etmek
   UPDATE public."User" SET role = 'ADMIN' WHERE email = 'admin@example.com';
   ```
 
+
