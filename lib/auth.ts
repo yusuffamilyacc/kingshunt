@@ -59,6 +59,14 @@ export const authOptions = {
         session.user.id = token.id as string
       }
       return session
+    },
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      // Same origin redirects are allowed
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Same origin redirects
+      if (new URL(url).origin === baseUrl) return url
+      // Default to baseUrl
+      return baseUrl
     }
   },
   pages: {
@@ -70,19 +78,6 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   trustHost: true, // Vercel için gerekli - host header'ını güvenilir kabul eder
   debug: process.env.NODE_ENV === "development", // Development'ta debug logları
-  cookies: {
-    sessionToken: {
-      name: process.env.NODE_ENV === "production" 
-        ? "__Secure-next-auth.session-token" 
-        : "next-auth.session-token",
-      options: {
-        httpOnly: true,
-        sameSite: "lax" as const,
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
-  },
 }
 
 // NextAuth v5 beta: auth() function for server-side session

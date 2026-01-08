@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { SectionHeading } from "@/components/section-heading"
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -28,8 +29,9 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Email veya şifre hatalı")
       } else {
-        // Vercel'de daha güvenilir yönlendirme
-        window.location.href = "/profile"
+        // Callback URL varsa oraya, yoksa profile'a yönlendir
+        const callbackUrl = searchParams.get("callbackUrl") || "/profile"
+        window.location.href = callbackUrl
       }
     } catch (err) {
       setError("Giriş yapılırken bir hata oluştu")
