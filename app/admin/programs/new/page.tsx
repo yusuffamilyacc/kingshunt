@@ -43,6 +43,7 @@ export default function NewProgramPage() {
 
       if (response.ok) {
         router.push("/admin")
+        router.refresh()
       } else {
         const data = await response.json()
         setError(data.error || "Program oluşturulurken bir hata oluştu")

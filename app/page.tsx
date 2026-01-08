@@ -2,6 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { SectionHeading } from "@/components/section-heading";
 
+// Disable caching for dynamic data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 interface Program {
   id: string;
   title: string;

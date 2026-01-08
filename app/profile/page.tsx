@@ -36,7 +36,8 @@ export default function ProfilePage() {
 
   const fetchEnrollments = async () => {
     try {
-      const response = await fetch("/api/enrollments", { 
+      const timestamp = Date.now()
+      const response = await fetch(`/api/enrollments?t=${timestamp}`, { 
         cache: 'no-store', 
         next: { revalidate: 0 } 
       })

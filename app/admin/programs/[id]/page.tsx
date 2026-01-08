@@ -39,7 +39,8 @@ export default function EditProgramPage() {
   useEffect(() => {
     const fetchProgram = async () => {
       try {
-        const response = await fetch(`/api/programs/${programId}`, { 
+        const timestamp = Date.now()
+        const response = await fetch(`/api/programs/${programId}?t=${timestamp}`, { 
           cache: 'no-store', 
           next: { revalidate: 0 } 
         })

@@ -50,9 +50,10 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     try {
+      const timestamp = Date.now()
       const [programsRes, tournamentsRes] = await Promise.all([
-        fetch("/api/programs", { cache: 'no-store', next: { revalidate: 0 } }),
-        fetch("/api/tournaments", { cache: 'no-store', next: { revalidate: 0 } }),
+        fetch(`/api/programs?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
+        fetch(`/api/tournaments?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
       ])
 
       if (programsRes.ok) {
