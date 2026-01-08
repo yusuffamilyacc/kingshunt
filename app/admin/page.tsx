@@ -35,7 +35,10 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (status === "unauthenticated" || (session && session.user.role !== "ADMIN")) {
+    // Sadece kesin olarak unauthenticated olduğunda redirect yap
+    if (status === "unauthenticated") {
+      router.push("/auth/login")
+    } else if (status === "authenticated" && session && session.user.role !== "ADMIN") {
       router.push("/")
     }
   }, [status, session, router])
