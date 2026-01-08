@@ -56,6 +56,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (!targetUser) {
+      return NextResponse.json(
+        { error: "Kullanıcı bulunamadı" },
+        { status: 404 }
+      )
+    }
+
     // Check if user exists in Prisma
     const existingUser = await prisma.user.findUnique({
       where: { id: targetUser.id }
