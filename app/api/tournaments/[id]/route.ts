@@ -11,6 +11,10 @@ const tournamentSchema = z.object({
   status: z.string().min(1).optional(),
 })
 
+// Disable caching for dynamic data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -28,7 +32,13 @@ export async function GET(
       )
     }
 
-    return NextResponse.json(tournament)
+    return NextResponse.json(tournament, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    })
   } catch (error) {
     console.error("Error fetching tournament:", error)
     return NextResponse.json(

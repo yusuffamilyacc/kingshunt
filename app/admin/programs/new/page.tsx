@@ -30,6 +30,7 @@ export default function NewProgramPage() {
       const response = await fetch("/api/programs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: 'no-store',
         body: JSON.stringify({
           ...formData,
           level: formData.level || null,

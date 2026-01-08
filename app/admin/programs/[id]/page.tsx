@@ -39,7 +39,10 @@ export default function EditProgramPage() {
   useEffect(() => {
     const fetchProgram = async () => {
       try {
-        const response = await fetch(`/api/programs/${programId}`)
+        const response = await fetch(`/api/programs/${programId}`, { 
+          cache: 'no-store', 
+          next: { revalidate: 0 } 
+        })
         if (response.ok) {
           const program: Program = await response.json()
           setFormData({
@@ -77,6 +80,7 @@ export default function EditProgramPage() {
       const response = await fetch(`/api/programs/${programId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        cache: 'no-store',
         body: JSON.stringify({
           ...formData,
           level: formData.level || null,

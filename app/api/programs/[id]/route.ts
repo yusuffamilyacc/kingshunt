@@ -13,6 +13,10 @@ const programSchema = z.object({
   goals: z.array(z.string()).optional(),
 })
 
+// Disable caching for dynamic data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -43,7 +47,13 @@ export async function GET(
       )
     }
 
-    return NextResponse.json(program)
+    return NextResponse.json(program, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    })
   } catch (error) {
     console.error("Error fetching program:", error)
     return NextResponse.json(

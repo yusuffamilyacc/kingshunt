@@ -13,13 +13,23 @@ const programSchema = z.object({
   goals: z.array(z.string()).default([]),
 })
 
+// Disable caching for dynamic data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET() {
   try {
     const programs = await prisma.program.findMany({
       orderBy: { createdAt: "desc" },
     })
 
-    return NextResponse.json(programs)
+    return NextResponse.json(programs, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    })
   } catch (error) {
     console.error("Error fetching programs:", error)
     return NextResponse.json(

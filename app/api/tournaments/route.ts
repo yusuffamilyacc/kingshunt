@@ -11,13 +11,23 @@ const tournamentSchema = z.object({
   status: z.string().min(1, "Durum gereklidir"),
 })
 
+// Disable caching for dynamic data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET() {
   try {
     const tournaments = await prisma.tournament.findMany({
       orderBy: { date: "desc" },
     })
 
-    return NextResponse.json(tournaments)
+    return NextResponse.json(tournaments, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    })
   } catch (error) {
     console.error("Error fetching tournaments:", error)
     return NextResponse.json(

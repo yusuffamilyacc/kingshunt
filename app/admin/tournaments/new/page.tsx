@@ -26,6 +26,7 @@ export default function NewTournamentPage() {
       const response = await fetch("/api/tournaments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: 'no-store',
         body: JSON.stringify(formData),
       })
 

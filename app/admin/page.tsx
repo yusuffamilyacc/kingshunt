@@ -51,8 +51,8 @@ export default function AdminPage() {
   const fetchData = async () => {
     try {
       const [programsRes, tournamentsRes] = await Promise.all([
-        fetch("/api/programs"),
-        fetch("/api/tournaments"),
+        fetch("/api/programs", { cache: 'no-store', next: { revalidate: 0 } }),
+        fetch("/api/tournaments", { cache: 'no-store', next: { revalidate: 0 } }),
       ])
 
       if (programsRes.ok) {
@@ -77,6 +77,7 @@ export default function AdminPage() {
     try {
       const response = await fetch(`/api/programs/${id}`, {
         method: "DELETE",
+        cache: 'no-store',
       })
 
       if (response.ok) {
@@ -93,6 +94,7 @@ export default function AdminPage() {
     try {
       const response = await fetch(`/api/tournaments/${id}`, {
         method: "DELETE",
+        cache: 'no-store',
       })
 
       if (response.ok) {

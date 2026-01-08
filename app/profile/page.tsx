@@ -36,7 +36,10 @@ export default function ProfilePage() {
 
   const fetchEnrollments = async () => {
     try {
-      const response = await fetch("/api/enrollments")
+      const response = await fetch("/api/enrollments", { 
+        cache: 'no-store', 
+        next: { revalidate: 0 } 
+      })
       if (response.ok) {
         const data = await response.json()
         setEnrollments(data)
@@ -54,6 +57,7 @@ export default function ProfilePage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ programId }),
+        cache: 'no-store',
       })
 
       if (response.ok) {
