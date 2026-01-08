@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { SectionHeading } from "@/components/section-heading"
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState("")
@@ -109,6 +109,33 @@ export default function LoginPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="text-[#0b0b0b]">
+        <section className="relative overflow-hidden border-b border-[#0b0b0b]/5 bg-gradient-to-b from-white via-[#f4ecde] to-[#f7f4ec]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(201,162,77,0.14),transparent_30%)]" />
+          <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+            <SectionHeading
+              align="center"
+              eyebrow="Giriş"
+              title="Hesabınıza Giriş Yapın"
+              subtitle="Üyelik sistemine erişmek için giriş yapın"
+            />
+          </div>
+        </section>
+        <section className="mx-auto max-w-md px-4 py-16 md:px-6 md:py-24">
+          <div className="rounded-3xl border border-[#0b0b0b]/6 bg-white p-8 shadow-xl shadow-black/10">
+            <div className="text-center text-[#4a4a4a]">Yükleniyor...</div>
+          </div>
+        </section>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   )
 }
 
