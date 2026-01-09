@@ -560,6 +560,7 @@ export function CoachCalendar({ userId }: CoachCalendarProps) {
               endTime: "",
               type: "INDIVIDUAL",
               studentIds: [],
+              selectedGroupId: "",
               isRecurring: false,
               recurringEndDate: "",
               notes: "",
