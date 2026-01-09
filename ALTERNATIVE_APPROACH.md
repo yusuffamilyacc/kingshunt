@@ -70,3 +70,4 @@ await supabase.auth.updateUser({
 Eğer sadece authentication yapıyorsanız ve role/relation gibi özelliklere ihtiyacınız yoksa, alternatif yaklaşımı kullanabilirsiniz.
 
 
+

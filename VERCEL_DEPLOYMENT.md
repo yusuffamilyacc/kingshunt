@@ -173,3 +173,4 @@ Vercel genellikle Next.js projelerini otomatik algılar, ancak özel build komut
 
 
 
+

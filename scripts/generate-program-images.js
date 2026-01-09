@@ -298,3 +298,4 @@ images.forEach((img, index) => {
 
 console.log('All images generated successfully!');
 
+

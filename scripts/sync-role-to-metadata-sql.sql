@@ -21,3 +21,4 @@ LEFT JOIN auth.users au ON u.id = au.id
 ORDER BY u."createdAt" DESC;
 
 
+

@@ -29,3 +29,4 @@ FROM public."User" u
 WHERE u.email = 'YOUR-EMAIL@example.com'; -- Buraya email'inizi yazın
 
 
+

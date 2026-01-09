@@ -19,3 +19,4 @@ LEFT JOIN auth.users au ON u.id = au.id
 WHERE au.raw_user_meta_data->>'role' IS NULL OR au.raw_user_meta_data->>'role' != u.role::text;
 
 
+

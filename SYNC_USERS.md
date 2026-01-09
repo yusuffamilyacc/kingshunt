@@ -119,3 +119,4 @@ Supabase Dashboard'dan manuel oluşturduğunuz kullanıcıları senkronize etmek
   ```
 
 
+

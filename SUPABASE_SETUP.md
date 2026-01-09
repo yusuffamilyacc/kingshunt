@@ -115,3 +115,4 @@ Yeni bir script oluşturmanız gerekecek veya Supabase Dashboard'dan manuel olar
 - Vercel'de environment variables'ın doğru ayarlandığından emin olun
 
 
+
