@@ -33,7 +33,7 @@ export function CoachCalendar({ userId }: CoachCalendarProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [currentWeek, setCurrentWeek] = useState(new Date())
   const [usersList, setUsersList] = useState<Array<{ id: string; name: string; studentName: string | null; email: string | null }>>([])
-  const [groupsList, setGroupsList] = useState<Array<{ id: string; name: string; members: Array<{ user: { name: string | null; studentName: string | null; email: string | null } }> }>>([])
+  const [groupsList, setGroupsList] = useState<Array<{ id: string; name: string; members: Array<{ user: { id: string; name: string | null; studentName: string | null; email: string | null } }> }>>([])
   const [formData, setFormData] = useState({
     date: "",
     startTime: "",
