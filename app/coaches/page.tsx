@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { SectionHeading } from "@/components/section-heading";
+import { prisma } from "@/lib/prisma";
 
-// Disable caching for dynamic data
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// Cache for 60 seconds
+export const revalidate = 60
 
 async function getCoaches() {
   try {
-    const { prisma } = await import("@/lib/prisma");
     // @ts-ignore - Prisma client will be generated
     const coaches = await prisma.coach.findMany({
       orderBy: [

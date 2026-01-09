@@ -18,9 +18,8 @@ const programSchema = z.object({
   goals: z.array(z.string()).default([]),
 })
 
-// Disable caching for dynamic data
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// Cache for 60 seconds
+export const revalidate = 60
 
 export async function GET() {
   try {
@@ -28,13 +27,7 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     })
 
-    return NextResponse.json(programs, {
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      }
-    })
+    return NextResponse.json(programs)
   } catch (error) {
     console.error("Error fetching programs:", error)
     return NextResponse.json(

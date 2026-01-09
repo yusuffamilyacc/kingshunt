@@ -13,9 +13,8 @@ const coachSchema = z.object({
   }),
 })
 
-// Disable caching for dynamic data
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// Cache for 60 seconds
+export const revalidate = 60
 
 export async function GET() {
   try {
@@ -26,13 +25,7 @@ export async function GET() {
       ],
     })
 
-    return NextResponse.json(coaches, {
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      }
-    })
+    return NextResponse.json(coaches)
   } catch (error) {
     console.error("Error fetching coaches:", error)
     return NextResponse.json(

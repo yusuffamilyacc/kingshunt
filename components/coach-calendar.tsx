@@ -55,11 +55,20 @@ export function CoachCalendar({ userId }: CoachCalendarProps) {
     if (canView) {
       fetchLessons()
     }
-    if (canEdit) {
+  }, [currentWeek, canView])
+
+  // Fetch users and groups only when form is opened
+  useEffect(() => {
+    if (canEdit && showForm && usersList.length === 0) {
       fetchUsers()
+    }
+  }, [showForm, canEdit])
+
+  useEffect(() => {
+    if (canEdit && showForm && groupsList.length === 0) {
       fetchGroups()
     }
-  }, [currentWeek, canView, canEdit])
+  }, [showForm, canEdit])
 
   const fetchLessons = async () => {
     try {
@@ -187,6 +196,11 @@ export function CoachCalendar({ userId }: CoachCalendarProps) {
     })
     setShowForm(true)
     setEditingLesson(null)
+    // Fetch users and groups when form opens
+    if (canEdit) {
+      if (usersList.length === 0) fetchUsers()
+      if (groupsList.length === 0) fetchGroups()
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -332,6 +346,11 @@ export function CoachCalendar({ userId }: CoachCalendarProps) {
       notes: lesson.notes || "",
     })
     setShowForm(true)
+    // Fetch users and groups when form opens
+    if (canEdit) {
+      if (usersList.length === 0) fetchUsers()
+      if (groupsList.length === 0) fetchGroups()
+    }
   }
 
   const navigateWeek = (direction: 'prev' | 'next') => {
@@ -565,6 +584,9 @@ export function CoachCalendar({ userId }: CoachCalendarProps) {
               recurringEndDate: "",
               notes: "",
             })
+            // Fetch users and groups when form opens
+            if (usersList.length === 0) fetchUsers()
+            if (groupsList.length === 0) fetchGroups()
           }}
           className="w-full rounded-lg bg-gradient-to-r from-gold-400 to-amber-500 px-5 py-3 text-sm font-semibold text-black shadow-lg shadow-gold-500/30 transition hover:-translate-y-0.5 hover:shadow-gold-400/40"
         >

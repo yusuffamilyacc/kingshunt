@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { SectionHeading } from "@/components/section-heading";
+import { prisma } from "@/lib/prisma";
 
-// Disable caching for dynamic data
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// Cache for 60 seconds
+export const revalidate = 60
 
 interface Program {
   id: string;
@@ -26,7 +26,6 @@ async function getPrograms(): Promise<Program[]> {
   try {
     // In server components, we can use relative URLs or direct Prisma access
     // Using Prisma directly is more efficient for server components
-    const { prisma } = await import("@/lib/prisma");
     const programs = await prisma.program.findMany({
       orderBy: { createdAt: "desc" },
     });

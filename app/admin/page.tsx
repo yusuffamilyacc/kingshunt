@@ -109,38 +109,14 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     try {
-      const timestamp = Date.now()
-      const [programsRes, tournamentsRes, coachesRes, usersRes, groupsRes] = await Promise.all([
-        fetch(`/api/programs?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
-        fetch(`/api/tournaments?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
-        fetch(`/api/coaches?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
-        fetch(`/api/users?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
-        fetch(`/api/groups?t=${timestamp}`, { cache: 'no-store', next: { revalidate: 0 } }),
-      ])
-
-      if (programsRes.ok) {
-        const programsData = await programsRes.json()
-        setPrograms(programsData)
-      }
-
-      if (tournamentsRes.ok) {
-        const tournamentsData = await tournamentsRes.json()
-        setTournaments(tournamentsData)
-      }
-
-      if (coachesRes.ok) {
-        const coachesData = await coachesRes.json()
-        setCoaches(coachesData)
-      }
-
-      if (usersRes.ok) {
-        const usersData = await usersRes.json()
-        setUsers(usersData)
-      }
-
-      if (groupsRes.ok) {
-        const groupsData = await groupsRes.json()
-        setGroups(groupsData)
+      const response = await fetch("/api/admin/data")
+      if (response.ok) {
+        const data = await response.json()
+        setPrograms(data.programs || [])
+        setTournaments(data.tournaments || [])
+        setCoaches(data.coaches || [])
+        setUsers(data.users || [])
+        setGroups(data.groups || [])
       }
     } catch (error) {
       console.error("Error fetching data:", error)
