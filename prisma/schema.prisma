@@ -34,6 +34,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   enrollments Enrollment[]
+  lessons   Lesson[] // Antrenör dersleri
 }
 
 model Program {
@@ -88,4 +89,30 @@ model Coach {
   updatedAt DateTime  @updatedAt
 
   @@index([type])
+}
+
+enum LessonType {
+  INDIVIDUAL
+  GROUP
+}
+
+model Lesson {
+  id            String     @id @default(cuid())
+  coachId       String
+  date          DateTime
+  startTime     String     // Format: "HH:mm" (e.g., "14:00")
+  endTime       String     // Format: "HH:mm" (e.g., "15:30")
+  type          LessonType
+  studentNames  String[]   @default([]) // Öğrenci isimleri
+  isRecurring   Boolean    @default(false) // Haftalık tekrar eden mi?
+  recurringEndDate DateTime? // Tekrar eden derslerin bitiş tarihi
+  notes         String?    @db.Text
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  coach         User       @relation(fields: [coachId], references: [id], onDelete: Cascade)
+
+  @@index([coachId])
+  @@index([date])
+  @@index([coachId, date])
 }

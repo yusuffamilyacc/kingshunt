@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { SectionHeading } from "@/components/section-heading"
+import { CoachCalendar } from "@/components/coach-calendar"
 
 interface Enrollment {
   id: string
@@ -100,35 +101,48 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+      <section className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
-            <div className="rounded-2xl border border-[#0b0b0b]/6 bg-white p-6 shadow-lg shadow-black/10">
-              <h3 className="text-lg font-semibold text-[#0b0b0b] mb-4">
-                Kayıtlı Olduğum Programlar
-              </h3>
-              {enrollments.length === 0 ? (
-                <p className="text-sm text-[#4a4a4a]">
-                  Henüz hiçbir programa kayıtlı değilsiniz.
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {enrollments.map((enrollment) => (
-                    <div
-                      key={enrollment.id}
-                      className="rounded-xl border border-[#0b0b0b]/5 bg-[#f7f4ec] p-4"
-                    >
-                      <h4 className="font-semibold text-[#0b0b0b]">
-                        {enrollment.program.title}
-                      </h4>
-                      <p className="text-sm text-[#4a4a4a] mt-1">
-                        {enrollment.program.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            {/* Coach Calendar - Only for COACH or ADMIN */}
+            {(user.role === "COACH" || user.role === "ADMIN") && (
+              <div className="rounded-2xl border border-[#0b0b0b]/6 bg-white p-6 shadow-lg shadow-black/10">
+                <h3 className="text-lg font-semibold text-[#0b0b0b] mb-6">
+                  Ders Takvimi
+                </h3>
+                <CoachCalendar userId={user.id} />
+              </div>
+            )}
+
+            {/* Enrollments - Only for MEMBER */}
+            {user.role === "MEMBER" && (
+              <div className="rounded-2xl border border-[#0b0b0b]/6 bg-white p-6 shadow-lg shadow-black/10">
+                <h3 className="text-lg font-semibold text-[#0b0b0b] mb-4">
+                  Kayıtlı Olduğum Programlar
+                </h3>
+                {enrollments.length === 0 ? (
+                  <p className="text-sm text-[#4a4a4a]">
+                    Henüz hiçbir programa kayıtlı değilsiniz.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {enrollments.map((enrollment) => (
+                      <div
+                        key={enrollment.id}
+                        className="rounded-xl border border-[#0b0b0b]/5 bg-[#f7f4ec] p-4"
+                      >
+                        <h4 className="font-semibold text-[#0b0b0b]">
+                          {enrollment.program.title}
+                        </h4>
+                        <p className="text-sm text-[#4a4a4a] mt-1">
+                          {enrollment.program.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="space-y-6">

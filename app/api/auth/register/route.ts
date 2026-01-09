@@ -13,19 +13,56 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const validatedData = registerSchema.parse(body)
 
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { id: validatedData.id }
+    // Check if user already exists by ID
+    const existingById = await prisma.user.findUnique({
+      where: { id: validatedData.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      }
     })
 
-    if (existingUser) {
+    // If user exists with same ID, return success (already registered)
+    if (existingById) {
       return NextResponse.json(
-        { error: "Bu kullanıcı zaten kayıtlı" },
-        { status: 400 }
+        { 
+          message: "Kullanıcı zaten kayıtlı", 
+          user: existingById 
+        },
+        { status: 200 }
       )
     }
 
-    // Create user in Prisma (password is managed by Supabase Auth)
+    // Check if email exists with different ID
+    const existingByEmail = await prisma.user.findUnique({
+      where: { email: validatedData.email }
+    })
+
+    if (existingByEmail) {
+      // Email already exists - this might be a sync issue
+      // Update the existing user's ID to match Supabase Auth ID
+      const user = await prisma.user.update({
+        where: { email: validatedData.email },
+        data: {
+          id: validatedData.id,
+          name: validatedData.name || existingByEmail.name,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        }
+      })
+      return NextResponse.json(
+        { message: "Kullanıcı güncellendi", user },
+        { status: 200 }
+      )
+    }
+
+    // Create new user in Prisma (password is managed by Supabase Auth)
     const user = await prisma.user.create({
       data: {
         id: validatedData.id,

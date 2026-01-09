@@ -66,10 +66,16 @@ export default function RegisterPage() {
 
         if (!response.ok) {
           const errorData = await response.json()
+          // If user already exists, treat as success
+          if (response.status === 200 || errorData.message?.includes("zaten")) {
+            router.push("/auth/login?registered=true")
+            return
+          }
           setError(errorData.error || "Kullanıcı oluşturulurken bir hata oluştu")
           return
         }
 
+        // Success - redirect to login
         router.push("/auth/login?registered=true")
       }
     } catch (err) {
