@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { SectionHeading } from "@/components/section-heading";
+import { AnimatedCounter } from "@/components/animated-counter";
 import { prisma } from "@/lib/prisma";
 
 // Cache for 60 seconds
@@ -100,15 +101,7 @@ export default async function Home() {
                 <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
                 <div>
                   <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
-                    FIDE Ustası
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-2.5 w-2.5 rounded-full bg-gold-500 border border-white shadow-md"></span>
-                <div>
-                  <span className="text-sm md:text-base font-semibold text-[#3b2a17]">
-                    10+ yıl öğretim deneyimi
+                    FIDE Ustası Başantrenör
                   </span>
                 </div>
               </li>
@@ -122,20 +115,61 @@ export default async function Home() {
               </li>
             </ul>
 
-            {/* Pill style highlights */}
-            <div className="flex flex-wrap gap-2 pt-2">
-              <span className="inline-flex items-center rounded-full bg-gold-100 px-4 py-1 text-xs md:text-sm font-medium text-gold-700 border border-gold-200 shadow-sm">
-                FIDE Ustası
-              </span>
-              <span className="inline-flex items-center rounded-full bg-gold-50 px-4 py-1 text-xs md:text-sm font-medium text-gold-700 border border-gold-100 shadow-sm">
-                1-2 Ayda gelişim farkı
-              </span>
-              <span className="inline-flex items-center rounded-full bg-gold-100 px-4 py-1 text-xs md:text-sm font-medium text-gold-700 border border-gold-200 shadow-sm">
-                Onlarca milli sporcu
-              </span>
+            {/* Modern stat counters with stylish design and font */}
+            <div className="flex flex-wrap justify-start gap-7 pt-5 pb-2 select-none">
+              {/* Milli Sporcu */}
+              <div className="flex flex-col items-center bg-gradient-to-br from-gold-50 via-white to-gold-100 border border-gold-200 rounded-xl px-5 py-4 shadow-md min-w-[130px] backdrop-blur-lg hover:scale-105 transition cursor-pointer">
+                <span
+                  className="font-extrabold text-3xl md:text-4xl text-gold-700 drop-shadow-sm font-mona whitespace-nowrap tracking-tight"
+                  style={{ fontFamily: "'Mona Sans', 'Inter', 'Segoe UI', Arial, sans-serif" }}
+                >
+                  <AnimatedCounter to={10} />
+                  <span className="align-text-top text-2xl md:text-3xl font-bold ml-1">+</span>
+                </span>
+                <span
+                  className="text-xs md:text-base font-semibold text-gold-900 mt-1 text-center"
+                  style={{ fontFamily: "'Mona Sans', 'Inter', 'Segoe UI', Arial, sans-serif" }}
+                >
+                  Milli Sporcu
+                </span>
+              </div>
+              {/* Mutlu Öğrenci */}
+              <div className="flex flex-col items-center bg-gradient-to-br from-gold-100 via-white to-gold-50 border border-gold-200 rounded-xl px-5 py-4 shadow-md min-w-[130px] backdrop-blur-lg hover:scale-105 transition cursor-pointer">
+                <span
+                  className="font-extrabold text-3xl md:text-4xl text-gold-700 drop-shadow-sm font-mona whitespace-nowrap tracking-tight"
+                  style={{ fontFamily: "'Mona Sans', 'Inter', 'Segoe UI', Arial, sans-serif" }}
+                >
+                  <AnimatedCounter to={400} />
+                  <span className="align-text-top text-2xl md:text-3xl font-bold ml-1">+</span>
+                </span>
+                <span
+                  className="text-xs md:text-base font-semibold text-gold-900 mt-1 text-center"
+                  style={{ fontFamily: "'Mona Sans', 'Inter', 'Segoe UI', Arial, sans-serif" }}
+                >
+                  Mutlu Öğrenci
+                </span>
+              </div>
+              {/* Yıl Tecrübe */}
+              <div className="flex flex-col items-center bg-gradient-to-br from-gold-50 via-white to-gold-100 border border-gold-200 rounded-xl px-5 py-4 shadow-md min-w-[130px] backdrop-blur-lg hover:scale-105 transition cursor-pointer">
+                <span
+                  className="font-extrabold text-3xl md:text-4xl text-gold-700 drop-shadow-sm font-mona whitespace-nowrap tracking-tight"
+                  style={{ fontFamily: "'Mona Sans', 'Inter', 'Segoe UI', Arial, sans-serif" }}
+                >
+                  <AnimatedCounter to={10} />
+                  <span className="align-text-top text-base md:text-xl font-semibold ml-1">+ Yıl</span>
+                </span>
+                <span
+                  className="text-xs md:text-base font-semibold text-gold-900 mt-1 text-center"
+                  style={{ fontFamily: "'Mona Sans', 'Inter', 'Segoe UI', Arial, sans-serif" }}
+                >
+                  Eğitim Tecrübesi
+                </span>
+              </div>
             </div>
 
-           
+            {/* Eğer Mona Sans fontunu projede eklemediyseniz, public/index.html veya global.css'e aşağıdaki linki ekleyebilirsiniz:
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Mona+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+            */}
           </div>
 
           {/* Right Side: Illustrative image area */}
